@@ -44,4 +44,9 @@ public class Item {
         return id.equals(item.id);
     }
 
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
 }

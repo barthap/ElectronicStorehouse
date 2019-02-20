@@ -1,7 +1,10 @@
 package com.hapex.electrostore.controller;
 
 import com.hapex.electrostore.entity.Item;
-import com.hapex.electrostore.model.CategoryView;
+import com.hapex.electrostore.model.CategoryModel;
+import com.hapex.electrostore.model.ItemModel;
+import com.hapex.electrostore.util.ui.DialogFactory;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -31,6 +34,9 @@ public class MainController implements Initializable {
     @FXML private DetailsPaneController detailsPaneController;
     @FXML private MenuController        mainMenuController;
 
+    private Item selectedItem;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         categoriesPaneController.bindMainController(this);
@@ -50,10 +56,12 @@ public class MainController implements Initializable {
         rightStatusLabel.setText(text);
     }
 
-    void onSelectedCategoryChanged(CategoryView selected) {
-        //label1.setText("Selected " + selected.getName());
+    void onSelectedCategoryChanged(CategoryModel selected) {
+        //label1.setText("Selected " + selected.getNameProperty());
     }
+
     void onSelectedItemChanged(Item selected) {
+        selectedItem = selected;
         detailsPaneController.setItem(selected);
     }
 
@@ -62,4 +70,20 @@ public class MainController implements Initializable {
         itemsTablePaneController.setFilter(searchField.getText());
     }
 
+    public void onAddItemClick(ActionEvent event) {
+        EditItemController controller
+                = DialogFactory.openModalWindow("/layout/editItem.fxml", "Add Item", this);
+        controller.setCreationMode();
+    }
+
+    public void onEditItemClick(ActionEvent event) {
+        if(selectedItem == null)
+            return;
+        EditItemController controller
+                = DialogFactory.openModalWindow("/layout/editItem.fxml", "Edit Item", this);
+        controller.setCurrentItem(new ItemModel(selectedItem));
+    }
+
+    public void onRemoveItemClick(ActionEvent event) {
+    }
 }

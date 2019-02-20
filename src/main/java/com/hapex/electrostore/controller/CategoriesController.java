@@ -1,8 +1,9 @@
 package com.hapex.electrostore.controller;
 
 import com.hapex.electrostore.controller.helper.CategoriesCellFactory;
+import com.hapex.electrostore.controller.helper.TreeBuilder;
 import com.hapex.electrostore.entity.Category;
-import com.hapex.electrostore.model.CategoryView;
+import com.hapex.electrostore.model.CategoryModel;
 import com.hapex.electrostore.service.CategoryService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,10 +28,10 @@ public class CategoriesController extends NestedController implements Initializa
     private final CategoryService categoryService;
 
     @FXML
-    private TreeView<CategoryView> categoryTree;
+    private TreeView<CategoryModel> categoryTree;
 
     private ContextMenu contextMenu;
-    private TreeItem<CategoryView> selectedNode;
+    private TreeItem<CategoryModel> selectedNode;
 
     public CategoriesController(CategoryService service) {
         categoryService = service;
@@ -38,10 +39,7 @@ public class CategoriesController extends NestedController implements Initializa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        TreeItem<CategoryView> root = new TreeItem<>(new CategoryView("Categories"));
-        buildCategoryTree(root, categoryService.getSimpleCategories(), null);
-
-        root.setExpanded(true);
+        TreeItem<CategoryModel> root = TreeBuilder.buildCategoryRoot(categoryService);
         buildContextMenu();
 
         categoryTree.setCellFactory(new CategoriesCellFactory(this));
@@ -50,7 +48,7 @@ public class CategoriesController extends NestedController implements Initializa
     }
 
     public void onCategorySelected(MouseEvent mouseEvent) {
-        TreeItem<CategoryView> selectedItem = categoryTree.getSelectionModel().getSelectedItem();
+        TreeItem<CategoryModel> selectedItem = categoryTree.getSelectionModel().getSelectedItem();
         if (selectedItem == null)
             return;
         selectedNode = selectedItem;
@@ -61,7 +59,7 @@ public class CategoriesController extends NestedController implements Initializa
         if (mouseEvent.getButton() != MouseButton.SECONDARY)
             return;
 
-        TreeItem<CategoryView> selectedItem = categoryTree.getSelectionModel().getSelectedItem();
+        TreeItem<CategoryModel> selectedItem = categoryTree.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             this.selectedNode = selectedItem;
             contextMenu.show(categoryTree, mouseEvent.getScreenX(), mouseEvent.getScreenY());
@@ -69,9 +67,9 @@ public class CategoriesController extends NestedController implements Initializa
 
     }
 
-    public void onDragDropFinished(TreeItem<CategoryView> movedItem, TreeItem<CategoryView> newParent) {
-        CategoryView movedCat = movedItem.getValue();
-        CategoryView parentCat = newParent.getValue();
+    public void onDragDropFinished(TreeItem<CategoryModel> movedItem, TreeItem<CategoryModel> newParent) {
+        CategoryModel movedCat = movedItem.getValue();
+        CategoryModel parentCat = newParent.getValue();
 
         log.debug(String.format("New parent for category %s is %s",
                 movedCat.getName(),
@@ -92,8 +90,8 @@ public class CategoriesController extends NestedController implements Initializa
             //if(newName.isEmpty())
             //   return; //TODO: add empty name error
 
-            CategoryView cv = categoryService.createNewCategory(newName, selectedNode.getValue());
-            TreeItem<CategoryView> treeItem = new TreeItem<>(cv);
+            CategoryModel cv = categoryService.createNewCategory(newName, selectedNode.getValue());
+            TreeItem<CategoryModel> treeItem = new TreeItem<>(cv);
             selectedNode.getChildren().add(treeItem);
         }
     }
@@ -109,7 +107,7 @@ public class CategoriesController extends NestedController implements Initializa
             alert.setContentText("Category is not empty! Please remove subcategories and items first.");
             alert.showAndWait();
         } else {
-            TreeItem<CategoryView> parent = selectedNode.getParent();
+            TreeItem<CategoryModel> parent = selectedNode.getParent();
             parent.getChildren().remove(selectedNode);
             selectedNode = parent;
             categoryTree.getSelectionModel().select(parent);
@@ -117,9 +115,9 @@ public class CategoriesController extends NestedController implements Initializa
         }
     }
 
-    private void commitEdit(TreeView.EditEvent<CategoryView> event) {
-        //CategoryView old = event.getOldValue();
-        CategoryView updated = event.getNewValue();
+    private void commitEdit(TreeView.EditEvent<CategoryModel> event) {
+        //CategoryModel old = event.getOldValue();
+        CategoryModel updated = event.getNewValue();
         log.debug(String.format("Updating category id=%d with new name: %s", updated.getId(), updated.getName()));
         categoryService.updateName(updated);
 
@@ -143,23 +141,8 @@ public class CategoriesController extends NestedController implements Initializa
         categoryTree.setContextMenu(contextMenu);
     }
 
-    private void buildCategoryTree(TreeItem<CategoryView> root, Collection<CategoryView> categories, CategoryView parent) {
-        Set<CategoryView> filtered;
-        filtered = categories.stream()
-                .filter(category ->
-                        (parent  == null) ?
-                                category.getParentId() < 0 :
-                                category.getParentId() == parent.getId())
-                .collect(Collectors.toSet());
 
-        for (CategoryView cat : filtered) {
-            TreeItem<CategoryView> catItem = new TreeItem<>(cat);
-            buildCategoryTree(catItem, categories, cat);
-            root.getChildren().add(catItem);
-        }
-    }
-
-    public TreeItem<CategoryView> getSelectedNode() {
+    public TreeItem<CategoryModel> getSelectedNode() {
         return selectedNode;
     }
 

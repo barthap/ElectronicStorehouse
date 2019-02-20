@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 /**
  * Created by barthap on 2019-02-19.
  */
-abstract class ModalWindowController {
+public abstract class ModalWindowController {
     protected Stage parentStage;
     protected MainController mainController;
 

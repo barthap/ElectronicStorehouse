@@ -1,7 +1,7 @@
 package com.hapex.electrostore.controller.helper;
 
 import com.hapex.electrostore.controller.LocationsWindowController;
-import com.hapex.electrostore.model.LocationView;
+import com.hapex.electrostore.model.LocationModel;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableRow;
 import javafx.scene.control.TreeTableView;
@@ -13,12 +13,12 @@ import static com.hapex.electrostore.util.Constants.SERIALIZED_MIME_TYPE;
 /**
  * Created by barthap on 2019-02-20.
  */
-public class LocationsRowFactory implements Callback<TreeTableView<LocationView>, TreeTableRow<LocationView>> {
+public class LocationsRowFactory implements Callback<TreeTableView<LocationModel>, TreeTableRow<LocationModel>> {
 
     private static final String DROP_HINT_STYLE = "-fx-border-color: #eea82f; -fx-border-width: 2 2 2 2; -fx-padding: 3 3 1 3";
 
-    private TreeTableRow<LocationView> dropZone;
-    private TreeItem<LocationView> draggedItem;
+    private TreeTableRow<LocationModel> dropZone;
+    private TreeItem<LocationModel> draggedItem;
 
     private LocationsWindowController controller;
 
@@ -27,8 +27,8 @@ public class LocationsRowFactory implements Callback<TreeTableView<LocationView>
     }
 
     @Override
-    public TreeTableRow<LocationView> call(TreeTableView<LocationView> treeView) {
-        TreeTableRow<LocationView> row = new TreeTableRow<>();
+    public TreeTableRow<LocationModel> call(TreeTableView<LocationModel> treeView) {
+        TreeTableRow<LocationModel> row = new TreeTableRow<>();
 
         row.setOnDragDetected(event -> dragDetected(event, row));
         row.setOnDragOver(event -> dragOver(event, row, treeView));
@@ -38,7 +38,7 @@ public class LocationsRowFactory implements Callback<TreeTableView<LocationView>
         return row;
     }
 
-    private void dragDetected(MouseEvent event, TreeTableRow<LocationView> row) {
+    private void dragDetected(MouseEvent event, TreeTableRow<LocationModel> row) {
         if (!row.isEmpty()) {
             draggedItem = row.getTreeItem();
 
@@ -51,7 +51,7 @@ public class LocationsRowFactory implements Callback<TreeTableView<LocationView>
         }
     }
 
-    private void dragOver(DragEvent event, TreeTableRow<LocationView> row, TreeTableView<LocationView> treeView) {
+    private void dragOver(DragEvent event, TreeTableRow<LocationModel> row, TreeTableView<LocationModel> treeView) {
         Dragboard db = event.getDragboard();
         if(draggedItem == null || row.getTreeItem() == draggedItem) return;
 
@@ -66,10 +66,10 @@ public class LocationsRowFactory implements Callback<TreeTableView<LocationView>
             clearDropLocation();
     }
 
-    private void dragDropped(DragEvent event, TreeTableRow<LocationView> row, TreeTableView<LocationView> treeView) {
+    private void dragDropped(DragEvent event, TreeTableRow<LocationModel> row, TreeTableView<LocationModel> treeView) {
         Dragboard db = event.getDragboard();
         if (acceptable(treeView, db, row)) {
-            TreeItem<LocationView> thisItem = getTarget(treeView, row);
+            TreeItem<LocationModel> thisItem = getTarget(treeView, row);
 
             draggedItem.getParent().getChildren().remove(draggedItem);
             thisItem.getChildren().add(draggedItem);
@@ -83,7 +83,7 @@ public class LocationsRowFactory implements Callback<TreeTableView<LocationView>
         }
     }
 
-    private boolean acceptable(TreeTableView<LocationView> treeView, Dragboard db, TreeTableRow<LocationView> row) {
+    private boolean acceptable(TreeTableView<LocationModel> treeView, Dragboard db, TreeTableRow<LocationModel> row) {
         boolean result = false;
         if (db.hasContent(SERIALIZED_MIME_TYPE)) {
             int index = (Integer) db.getContent(SERIALIZED_MIME_TYPE);
@@ -96,8 +96,8 @@ public class LocationsRowFactory implements Callback<TreeTableView<LocationView>
         return result;
     }
 
-    private TreeItem<LocationView> getTarget(TreeTableView<LocationView> treeView, TreeTableRow<LocationView> row) {
-        TreeItem<LocationView> target = treeView.getRoot();
+    private TreeItem<LocationModel> getTarget(TreeTableView<LocationModel> treeView, TreeTableRow<LocationModel> row) {
+        TreeItem<LocationModel> target = treeView.getRoot();
         if (!row.isEmpty()) {
             target = row.getTreeItem();
         }

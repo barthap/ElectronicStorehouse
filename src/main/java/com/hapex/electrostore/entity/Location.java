@@ -54,10 +54,20 @@ public class Location {
         return getItemCount(true);
     }
     public int getItemCount(boolean total) {
+        if(items == null)
+            return 0;
         int sum = items.size();
         if(total)
             sum += children.stream().mapToInt(Location::getItemCount).sum();
         return sum;
+    }
+
+    public boolean hasChildren() {
+        return !children.isEmpty();
+    }
+
+    public boolean hasItems() {
+        return !items.isEmpty();
     }
 
     @Override
@@ -70,4 +80,8 @@ public class Location {
         return id.equals(location.id);
     }
 
+    @Override
+    public int hashCode() {
+        return 31;
+    }
 }

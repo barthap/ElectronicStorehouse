@@ -6,7 +6,7 @@ package com.hapex.electrostore.controller.helper;
 
 
 import com.hapex.electrostore.controller.CategoriesController;
-import com.hapex.electrostore.model.CategoryView;
+import com.hapex.electrostore.model.CategoryModel;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -19,10 +19,10 @@ import java.util.Objects;
 
 import static com.hapex.electrostore.util.Constants.SERIALIZED_MIME_TYPE;
 
-public class CategoriesCellFactory implements Callback<TreeView<CategoryView>, TreeCell<CategoryView>> {
+public class CategoriesCellFactory implements Callback<TreeView<CategoryModel>, TreeCell<CategoryModel>> {
     private static final String DROP_HINT_STYLE = "-fx-border-color: #eea82f; -fx-border-width: 2 2 2 2; -fx-padding: 3 3 1 3";
-    private TreeCell<CategoryView> dropZone;
-    private TreeItem<CategoryView> draggedItem;
+    private TreeCell<CategoryModel> dropZone;
+    private TreeItem<CategoryModel> draggedItem;
 
     private CategoriesController categoriesController;
 
@@ -32,16 +32,16 @@ public class CategoriesCellFactory implements Callback<TreeView<CategoryView>, T
 
 
     @Override
-    public TreeCell<CategoryView> call(TreeView<CategoryView> treeView) {
-        TreeCell<CategoryView> cell = new TextFieldTreeCell<>(new StringConverter<CategoryView>() {
+    public TreeCell<CategoryModel> call(TreeView<CategoryModel> treeView) {
+        TreeCell<CategoryModel> cell = new TextFieldTreeCell<>(new StringConverter<CategoryModel>() {
             @Override
-            public String toString(CategoryView object) {
+            public String toString(CategoryModel object) {
                 return object.getName();
             }
 
             @Override
-            public CategoryView fromString(String string) {
-                CategoryView temp = categoriesController.getSelectedNode().getValue();
+            public CategoryModel fromString(String string) {
+                CategoryModel temp = categoriesController.getSelectedNode().getValue();
                 temp.setName(string);
                 return temp;
             }
@@ -55,7 +55,7 @@ public class CategoriesCellFactory implements Callback<TreeView<CategoryView>, T
         return cell;
     }
 
-    private void dragDetected(MouseEvent event, TreeCell<CategoryView> treeCell, TreeView<CategoryView> treeView) {
+    private void dragDetected(MouseEvent event, TreeCell<CategoryModel> treeCell, TreeView<CategoryModel> treeView) {
         draggedItem = treeCell.getTreeItem();
 
         // root can't be dragged
@@ -69,9 +69,9 @@ public class CategoriesCellFactory implements Callback<TreeView<CategoryView>, T
         event.consume();
     }
 
-    private void dragOver(DragEvent event, TreeCell<CategoryView> treeCell, TreeView<CategoryView> treeView) {
+    private void dragOver(DragEvent event, TreeCell<CategoryModel> treeCell, TreeView<CategoryModel> treeView) {
         if (!event.getDragboard().hasContent(SERIALIZED_MIME_TYPE)) return;
-        TreeItem<CategoryView> thisItem = treeCell.getTreeItem();
+        TreeItem<CategoryModel> thisItem = treeCell.getTreeItem();
 
         // can't drop on itself
         if (draggedItem == null || thisItem == null || thisItem == draggedItem) return;
@@ -89,13 +89,13 @@ public class CategoriesCellFactory implements Callback<TreeView<CategoryView>, T
         }
     }
 
-    private void drop(DragEvent event, TreeCell<CategoryView> treeCell, TreeView<CategoryView> treeView) {
+    private void drop(DragEvent event, TreeCell<CategoryModel> treeCell, TreeView<CategoryModel> treeView) {
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (!db.hasContent(SERIALIZED_MIME_TYPE)) return;
 
-        TreeItem<CategoryView> thisItem = treeCell.getTreeItem();
-        TreeItem<CategoryView> droppedItemParent = draggedItem.getParent();
+        TreeItem<CategoryModel> thisItem = treeCell.getTreeItem();
+        TreeItem<CategoryModel> droppedItemParent = draggedItem.getParent();
 
         // remove from previous location
         droppedItemParent.getChildren().remove(draggedItem);

@@ -2,7 +2,7 @@ package com.hapex.electrostore.service;
 
 import com.hapex.electrostore.dao.CategoryDao;
 import com.hapex.electrostore.entity.Category;
-import com.hapex.electrostore.model.CategoryView;
+import com.hapex.electrostore.model.CategoryModel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
@@ -21,11 +21,11 @@ public class CategoryService {
         this.dao = dao;
     }
 
-    public Collection<CategoryView> getSimpleCategories() {
-        return dao.findAll().stream().map(CategoryView::new).collect(Collectors.toSet());
+    public Collection<CategoryModel> getSimpleCategories() {
+        return dao.findAll().stream().map(CategoryModel::new).collect(Collectors.toSet());
     }
 
-    public CategoryView createNewCategory(String newName, CategoryView parentView) {
+    public CategoryModel createNewCategory(String newName, CategoryModel parentView) {
         Optional<Category> optParent = dao.findById(parentView.getId());
         Category parent = optParent.orElse(null);
 
@@ -43,10 +43,10 @@ public class CategoryService {
 
         dao.endTransaction();
 
-        return new CategoryView(category);
+        return new CategoryModel(category);
     }
 
-    public void updateName(CategoryView updated) {
+    public void updateName(CategoryModel updated) {
         dao.beginTransaction();
         Optional<Category> optionalCategory = dao.findById(updated.getId());
         Category edited = optionalCategory.orElseThrow(() -> new RuntimeException("Couldn't find category to update"));
@@ -55,7 +55,7 @@ public class CategoryService {
         dao.endTransaction();
     }
 
-    public void moveCategory(CategoryView movedCat, CategoryView parentCat) {
+    public void moveCategory(CategoryModel movedCat, CategoryModel parentCat) {
         dao.beginTransaction();
 
         Category moved = dao.findById(movedCat.getId()).orElseThrow(
@@ -84,11 +84,11 @@ public class CategoryService {
         dao.endTransaction();
     }
 
-    public boolean tryRemove(CategoryView categoryView) {
+    public boolean tryRemove(CategoryModel categoryModel) {
         dao.beginTransaction();
 
-        Category category = dao.findById(categoryView.getId()).orElseThrow(
-                () -> new RuntimeException("Couldn't find category with id: " + categoryView.getId()));
+        Category category = dao.findById(categoryModel.getId()).orElseThrow(
+                () -> new RuntimeException("Couldn't find category with id: " + categoryModel.getId()));
 
         if(category.hasChildren() || category.hasItems()) {
             dao.endTransaction();

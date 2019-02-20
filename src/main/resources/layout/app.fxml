@@ -41,9 +41,9 @@
          <children>
             <ButtonBar buttonOrder="L_E+U+FBXI_YNOCAH_R" layoutX="1000.0" maxHeight="-Infinity" minHeight="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <buttons>
-                  <Button mnemonicParsing="false" text="Remove" />
-                  <Button mnemonicParsing="false" text="Edit" />
-                <Button mnemonicParsing="false" text="Add Item" />
+                  <Button mnemonicParsing="false" onAction="#onRemoveItemClick" text="Remove" />
+                  <Button mnemonicParsing="false" onAction="#onEditItemClick" text="Edit" />
+                <Button mnemonicParsing="false" onAction="#onAddItemClick" text="Add Item" />
               </buttons>
                <padding>
                   <Insets left="20.0" />

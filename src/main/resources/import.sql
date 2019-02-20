@@ -23,7 +23,8 @@ INSERT INTO Items (id, category_id, `name`, quantity, location_id) VALUES
 (1, 2, 'Rezystor 33k', 10, 2),
 (2, 2, 'Rezystor 68 Ohm', 20, 2),
 (3, 5, '100nF', 50, 2),
-(4, 6, 'IRLZ44N', 6, 4);
+(4, 6, 'IRLZ44N', 6, 4),
+(5, 4, '1000uF', 5, 5);
 
 INSERT INTO Items (id, description, name, quantity, category_id) VALUES
-(5, 'Bardzo długi opis. Ogólnie to zamiast 70 sztuk zamówiłem 700 przypadkowo no i mam, nie wiem co z tym zrobić', 'Rezystor 100R', 600, 2);
+(6, 'Bardzo długi opis. Ogólnie to zamiast 70 sztuk zamówiłem 700 przypadkowo no i mam, nie wiem co z tym zrobić', 'Rezystor 100R', 600, 2);

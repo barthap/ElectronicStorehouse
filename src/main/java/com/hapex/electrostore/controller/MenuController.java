@@ -1,20 +1,12 @@
 package com.hapex.electrostore.controller;
 
-import com.hapex.electrostore.App;
-import com.hapex.electrostore.util.FXMLFactory;
+import com.hapex.electrostore.util.ui.DialogFactory;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -46,25 +38,7 @@ public class MenuController extends NestedController {
 
     @FXML
     void onOpenLocations(ActionEvent event) {
-        FXMLLoader loader = FXMLFactory.getLoader("/layout/locationsWindow.fxml");
-        Parent dialogRoot;
-        try {
-            dialogRoot = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        Stage modal = new Stage(StageStyle.UTILITY);
-        modal.initModality(Modality.WINDOW_MODAL);
-        modal.initOwner(App.getMainStage());
-        Scene scene = new Scene(dialogRoot);
-        modal.setScene(scene);
-        modal.setTitle("Manage locations");
-        modal.show();
-
-        LocationsWindowController controller = loader.getController();
-        controller.bindParentVariables(modal, mainController);
+        DialogFactory.openModalWindow("/layout/locationsWindow.fxml", "Manage locations", mainController);
     }
 
     @FXML
