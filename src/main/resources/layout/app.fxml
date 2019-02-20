@@ -19,8 +19,20 @@
       <fx:include fx:id="mainMenu" source="menu.fxml" />
       <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="900.0">
          <children>
-            <Label layoutX="14.0" layoutY="17.0" text="Search" />
-            <TextField fx:id="searchField" layoutX="64.0" layoutY="12.0" onKeyTyped="#onSearchKeyTyped" />
+            <HBox prefHeight="50.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label text="%label.search">
+                     <HBox.margin>
+                        <Insets left="10.0" top="15.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="searchField" onKeyTyped="#onSearchKeyTyped">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
          </children></AnchorPane>
     <SplitPane dividerPositions="0.2506, 0.7506" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
@@ -41,9 +53,9 @@
          <children>
             <ButtonBar buttonOrder="L_E+U+FBXI_YNOCAH_R" layoutX="1000.0" maxHeight="-Infinity" minHeight="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="50.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <buttons>
-                  <Button mnemonicParsing="false" onAction="#onRemoveItemClick" text="Remove" />
-                  <Button mnemonicParsing="false" onAction="#onEditItemClick" text="Edit" />
-                <Button mnemonicParsing="false" onAction="#onAddItemClick" text="Add Item" />
+                  <Button mnemonicParsing="false" onAction="#onRemoveItemClick" text="%button.delete" />
+                  <Button mnemonicParsing="false" onAction="#onEditItemClick" text="%button.edit" />
+                <Button mnemonicParsing="false" onAction="#onAddItemClick" text="%button.add_item" />
               </buttons>
                <padding>
                   <Insets left="20.0" />

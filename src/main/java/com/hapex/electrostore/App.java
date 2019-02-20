@@ -1,6 +1,7 @@
 package com.hapex.electrostore;
 
 import com.hapex.electrostore.util.FXMLFactory;
+import com.hapex.electrostore.util.UTF8BundleControl;
 import com.hapex.electrostore.util.database.HibernateUtil;
 import com.hapex.electrostore.util.di.ApplicationContext;
 import javafx.application.Application;
@@ -10,11 +11,16 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 @Slf4j
 public class App extends Application {
+    private static final Locale APP_LOCALE = new Locale("pl", "PL");
     private static Stage mainStage;
     private static ApplicationContext context;
     private static App instance;
+    private static final ResourceBundle localeBundle = ResourceBundle.getBundle("bundles.appLocale", APP_LOCALE, new UTF8BundleControl());
 
     public static ApplicationContext getContext() {
         return context;
@@ -30,6 +36,14 @@ public class App extends Application {
         log.trace("Bootstrapping");
         context = new ApplicationContext();
         launch(args);
+    }
+
+    public static ResourceBundle getLocaleBundle() {
+        return localeBundle;
+    }
+
+    public static String getLocale(String key) {
+        return localeBundle.getString(key);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.hapex.electrostore.controller;
 
+import com.hapex.electrostore.App;
 import com.hapex.electrostore.controller.helper.CategoriesCellFactory;
 import com.hapex.electrostore.controller.helper.TreeBuilder;
 import com.hapex.electrostore.entity.Category;
@@ -102,9 +103,9 @@ public class CategoriesController extends NestedController implements Initializa
 
         if (!categoryService.tryRemove(selectedNode.getValue())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Cannot remove category: " + selectedNode.getValue().getName());
-            alert.setContentText("Category is not empty! Please remove subcategories and items first.");
+            alert.setTitle(App.getLocale("error"));
+            alert.setHeaderText(App.getLocale("message.error.category.remove") + selectedNode.getValue().getName());
+            alert.setContentText(App.getLocale("message.error.category.remove_details"));
             alert.showAndWait();
         } else {
             TreeItem<CategoryModel> parent = selectedNode.getParent();
@@ -125,16 +126,16 @@ public class CategoriesController extends NestedController implements Initializa
     }
 
     private void buildContextMenu() {
-        MenuItem entryAdd = new MenuItem("Add subcategory");
+        MenuItem entryAdd = new MenuItem(App.getLocale("command.add_subcategory"));
         entryAdd.setOnAction(ae -> createSubcategory());
 
-        MenuItem entryEdit = new MenuItem("Edit name");
+        MenuItem entryEdit = new MenuItem(App.getLocale("command.edit_name"));
         entryEdit.setOnAction(ae -> {
             categoryTree.setEditable(true);
             categoryTree.edit(selectedNode);
         });
 
-        MenuItem entryRemove = new MenuItem("Remove");
+        MenuItem entryRemove = new MenuItem(App.getLocale("button.remove"));
         entryRemove.setOnAction(ae -> removeSelected());
 
         contextMenu = new ContextMenu(entryAdd, entryEdit, new SeparatorMenuItem(), entryRemove);

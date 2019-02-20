@@ -17,38 +17,38 @@
          <children>
             <TreeTableView fx:id="locationsTree" maxHeight="1.7976931348623157E308" onMouseClicked="#onMouseClicked">
               <columns>
-                <TreeTableColumn fx:id="nameColumn" prefWidth="232.0" text="Name" />
-                  <TreeTableColumn fx:id="descColumn" prefWidth="278.0" text="Description" />
-                <TreeTableColumn fx:id="quantityColumn" minWidth="2.0" prefWidth="89.0" text="Num. items" />
+                <TreeTableColumn fx:id="nameColumn" prefWidth="232.0" text="%label.name" />
+                  <TreeTableColumn fx:id="descColumn" prefWidth="278.0" text="%label.description" />
+                <TreeTableColumn fx:id="quantityColumn" minWidth="2.0" prefWidth="89.0" text="%label.num_items" />
               </columns>
             </TreeTableView>
             <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="200.0" prefWidth="600.0">
                <children>
-                  <Label layoutX="14.0" layoutY="14.0" text="Name:" />
+                  <Label layoutX="14.0" layoutY="14.0" text="%label.name" />
                   <TextField fx:id="nameField" editable="false" layoutX="14.0" layoutY="31.0" prefHeight="27.0" prefWidth="300.0" />
-                  <Label layoutX="14.0" layoutY="67.0" text="Description:" />
+                  <Label layoutX="14.0" layoutY="67.0" text="%label.description" />
                   <TextArea fx:id="descField" editable="false" layoutX="14.0" layoutY="84.0" prefHeight="55.0" prefWidth="565.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
                   <HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#onAddClick" text="Add">
+                        <Button mnemonicParsing="false" onAction="#onAddClick" text="%button.add">
                            <HBox.margin>
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onEditClick" text="Edit">
+                        <Button mnemonicParsing="false" onAction="#onEditClick" text="%button.edit">
                            <HBox.margin>
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onDeleteClick" text="Delete">
+                        <Button mnemonicParsing="false" onAction="#onDeleteClick" text="%button.delete">
                            <HBox.margin>
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
                         </Button>
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" onAction="#onCloseClick" text="Close" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                  <Button layoutX="472.0" layoutY="31.0" mnemonicParsing="false" onAction="#onClearClick" text="Clear selection" AnchorPane.rightAnchor="18.0" />
+                  <Button mnemonicParsing="false" onAction="#onCloseClick" text="%button.close" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                  <Button layoutX="472.0" layoutY="31.0" mnemonicParsing="false" onAction="#onClearClick" text="%button.clear_selection" AnchorPane.rightAnchor="18.0" />
                </children>
             </AnchorPane>
          </children>

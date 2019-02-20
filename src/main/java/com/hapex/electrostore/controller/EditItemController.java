@@ -1,5 +1,6 @@
 package com.hapex.electrostore.controller;
 
+import com.hapex.electrostore.App;
 import com.hapex.electrostore.controller.helper.TreeBuilder;
 import com.hapex.electrostore.model.CategoryModel;
 import com.hapex.electrostore.model.ItemModel;
@@ -58,7 +59,7 @@ public class EditItemController extends ModalWindowController implements Initial
 
         this.isEditing.addListener((observable, oldValue, newValue) -> setSaveButtonBehaviour(newValue));
 
-        locationPicker.getItems().add(new SimpleLocationModel("--- None ---"));
+        locationPicker.getItems().add(new SimpleLocationModel(App.getLocale("location.none")));
         locationPicker.getItems().addAll(locationService.getSimpleLocationModels());
 
         setSaveButtonBehaviour(isEditing.get());
@@ -96,12 +97,31 @@ public class EditItemController extends ModalWindowController implements Initial
     }
 
     private void setSaveButtonBehaviour(boolean editing) {
+        saveButton.getItems().clear();
+
         if(editing) {
-            saveButton.setText("Save changes");
-            //save button
+            String saveCloseStr = App.getLocale("button.save_and_close");
+            String saveChangesStr = App.getLocale("button.save_changes");
+
+            MenuItem saveAndClose = new MenuItem(saveCloseStr);
+            MenuItem saveChanges = new MenuItem(saveChangesStr);
+            saveAndClose.setOnAction(e -> saveButton.setText(saveCloseStr));
+            saveChanges.setOnAction(e -> saveButton.setText(saveChangesStr));
+
+            saveButton.setText(saveChangesStr);
+            saveButton.getItems().addAll(saveAndClose, saveChanges);
         }
         else {
-            saveButton.setText("Save and close");
+            String createCloseStr = App.getLocale("button.create_and_close");
+            String createNewStr = App.getLocale("button.create_and_new");
+
+            MenuItem createAndClose = new MenuItem(createCloseStr);
+            MenuItem createAndNew = new MenuItem(createNewStr);
+            createAndClose.setOnAction(e -> saveButton.setText(createCloseStr));
+            createAndNew.setOnAction(e -> saveButton.setText(createNewStr));
+
+            saveButton.setText(createCloseStr);
+            saveButton.getItems().addAll(createAndClose, createAndNew);
         }
     }
 
