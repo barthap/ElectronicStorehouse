@@ -28,7 +28,9 @@ abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao<T, ID>
 
     @Override
     public List<T> findAll() {
-        return em.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass).getResultList();
+        return em.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass)
+                .setHint("org.hibernate.cacheable", true)
+                .getResultList();
     }
 
     @Override

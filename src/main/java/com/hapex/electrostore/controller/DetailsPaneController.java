@@ -31,13 +31,13 @@ public class DetailsPaneController extends NestedController implements Initializ
         googleUrl.setText("-");
         quantityLabel.setText("-");
         locationLabel.setText("-");
-        descLabel.setText("Select item to see details");
+        descLabel.setText(App.getLocale("message.item.select_see_details"));
     }
 
     public void setItem(Item item) {
         nameLabel.setText(item.getName());
         quantityLabel.setText(Integer.toString(item.getQuantity()));
-        descLabel.setText(item.getDescription() != null ? item.getDescription() : "No description specified");
+        descLabel.setText(item.getDescription() != null ? item.getDescription() : App.getLocale("message.item.no_desc"));
         if(item.getLocation() != null)
             locationLabel.setText(item.getLocation().getFullName());
         else

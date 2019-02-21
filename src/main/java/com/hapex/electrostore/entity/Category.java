@@ -2,6 +2,8 @@ package com.hapex.electrostore.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -11,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "Categories")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Category {
 
     @Id

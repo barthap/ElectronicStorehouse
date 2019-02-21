@@ -1,5 +1,6 @@
 package com.hapex.electrostore.controller;
 
+import com.hapex.electrostore.App;
 import com.hapex.electrostore.controller.helper.LocationsRowFactory;
 import com.hapex.electrostore.controller.helper.TreeBuilder;
 import com.hapex.electrostore.model.LocationModel;
@@ -117,9 +118,9 @@ public class LocationsWindowController extends ModalWindowController implements 
         }
         else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Cannot remove location: " + selectedItem.getValue().getNameProperty().get());
-            alert.setContentText("Location is not empty! Please remove child locations and items first.");
+            alert.setTitle(App.getLocale("error"));
+            alert.setHeaderText(App.getLocale("message.error.location.remove") + selectedItem.getValue().getNameProperty().get());
+            alert.setContentText(App.getLocale("message.error.location.remove_details"));
             alert.showAndWait();
         }
 
@@ -140,10 +141,10 @@ public class LocationsWindowController extends ModalWindowController implements 
 
     private Optional<DTO> showEditDialog(DTO existingData, LocationModel parent) {
         Dialog<DTO> dialog = new Dialog<>();
-        dialog.setTitle(existingData == null ? "Create location" : "Edit location");
-        String headerText = "Current parent ";
-        headerText += (existingData == null) ? "will be: " : "is: ";
-        headerText += parent != null ?  parent.getNameProperty().get() : "root node";
+        dialog.setTitle(existingData == null ? App.getLocale("command.location.create") : App.getLocale("command.location.edit"));
+        String headerText = App.getLocale("message.location.current_parent");
+        headerText += (existingData == null) ? App.getLocale("message.will_be") : App.getLocale("message.is");
+        headerText += parent != null ?  parent.getNameProperty().get() : App.getLocale("location.root");
         dialog.setHeaderText(headerText);
         dialog.setResizable(true);
 
@@ -160,17 +161,18 @@ public class LocationsWindowController extends ModalWindowController implements 
 
         GridPane grid = new GridPane();
         grid.setVgap(5);
+        grid.setHgap(5);
 
-        grid.add(new Label("Name: "), 1, 1);
+        grid.add(new Label(App.getLocale("label.name_d")), 1, 1);
         grid.add(nameInput, 2, 1);
 
-        grid.add(new Label("Description: "), 1, 2);
+        grid.add(new Label(App.getLocale("label.description_d")), 1, 2);
         grid.add(descInput, 2, 2);
 
         dialog.getDialogPane().setContent(grid);
 
-        ButtonType buttonTypeOk = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType buttonTypeOk = new ButtonType(App.getLocale("button.save"), ButtonBar.ButtonData.OK_DONE);
+        ButtonType buttonTypeCancel = new ButtonType(App.getLocale("button.cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
         dialog.getDialogPane().getButtonTypes().addAll(buttonTypeOk, buttonTypeCancel);
 
         dialog.setResultConverter(b -> {

@@ -1,5 +1,6 @@
 package com.hapex.electrostore.controller;
 
+import com.hapex.electrostore.App;
 import com.hapex.electrostore.util.ui.DialogFactory;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,9 +19,10 @@ public class MenuController extends NestedController {
 
     @FXML void onAboutClick(ActionEvent actionEvent) {
         Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-        dialog.setTitle("About");
+        dialog.setTitle(App.getLocale("menu.help.about"));
         dialog.setHeaderText("Electronic Storehouse");
-        dialog.setContentText("Some content info about\n\nhttps://github.com/barthap");
+        //TODO: custom About content
+        dialog.setContentText("TODO: Some content info about\n\nhttps://github.com/barthap");
         dialog.setResizable(false);
         dialog.showAndWait();
     }
@@ -29,8 +31,8 @@ public class MenuController extends NestedController {
     void onAppQuitClick(ActionEvent event) {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Electronic Storehouse");
-        confirmAlert.setHeaderText("Definitely?");
-        confirmAlert.setContentText("Are you sure you wanna exit app?");
+        confirmAlert.setHeaderText(App.getLocale("message.definitely"));
+        confirmAlert.setContentText(App.getLocale("message.confirm_exit"));
         Optional<ButtonType> result = confirmAlert.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK)
             Platform.exit();
@@ -38,7 +40,7 @@ public class MenuController extends NestedController {
 
     @FXML
     void onOpenLocations(ActionEvent event) {
-        DialogFactory.openModalWindow("/layout/locationsWindow.fxml", "Manage locations", mainController);
+        DialogFactory.openModalWindow("/layout/locationsWindow.fxml", App.getLocale("menu.program.locations"), mainController);
     }
 
     @FXML

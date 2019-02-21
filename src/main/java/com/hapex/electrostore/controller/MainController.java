@@ -1,5 +1,6 @@
 package com.hapex.electrostore.controller;
 
+import com.hapex.electrostore.App;
 import com.hapex.electrostore.entity.Item;
 import com.hapex.electrostore.model.CategoryModel;
 import com.hapex.electrostore.model.ItemModel;
@@ -44,7 +45,7 @@ public class MainController implements Initializable {
         detailsPaneController.bindMainController(this);
         mainMenuController.bindMainController(this);
 
-        leftStatusLabel.setText("Ready");
+        leftStatusLabel.setText(App.getLocale("status.ready"));
         rightStatusLabel.setText("---");
     }
 
@@ -72,7 +73,7 @@ public class MainController implements Initializable {
 
     public void onAddItemClick(ActionEvent event) {
         EditItemController controller
-                = DialogFactory.openModalWindow("/layout/editItem.fxml", "Add Item", this);
+                = DialogFactory.openModalWindow("/layout/editItem.fxml", App.getLocale("button.add_item"), this);
         controller.setCreationMode();
     }
 
@@ -80,7 +81,7 @@ public class MainController implements Initializable {
         if(selectedItem == null)
             return;
         EditItemController controller
-                = DialogFactory.openModalWindow("/layout/editItem.fxml", "Edit Item", this);
+                = DialogFactory.openModalWindow("/layout/editItem.fxml", App.getLocale("button.edit_item"), this);
         controller.setCurrentItem(new ItemModel(selectedItem));
     }
 

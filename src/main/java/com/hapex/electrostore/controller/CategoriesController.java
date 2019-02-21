@@ -82,7 +82,7 @@ public class CategoriesController extends NestedController implements Initializa
     private void createSubcategory() {
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("Add subcategory for " + selectedNode.toString());
-        dialog.setHeaderText("Enter category name");
+        dialog.setHeaderText(App.getLocale("message.category.enter_name"));
 
         Optional<String> dialogResult = dialog.showAndWait();
 
@@ -112,7 +112,7 @@ public class CategoriesController extends NestedController implements Initializa
             parent.getChildren().remove(selectedNode);
             selectedNode = parent;
             categoryTree.getSelectionModel().select(parent);
-            mainController.setLeftStatus("Category removed successfully");
+            mainController.setLeftStatus(App.getLocale("status.category_removed"));
         }
     }
 

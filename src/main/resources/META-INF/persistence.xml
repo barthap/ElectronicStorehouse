@@ -15,10 +15,13 @@
             <property name="hibernate.connection.url" value="jdbc:sqlite:app_db.sqlite"/>
             <property name="hibernate.connection.charset" value="UTF-8"/>
 
-            <property name="hibernate.connection.autocommit" value="true"/>
-            <property name="hibernate.flushMode" value="ALWAYS" />
-            <property name="hibernate.cache.use_second_level_cache" value="false" />
-            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />
+            <property name="hibernate.flushMode" value="AUTO" />
+
+            <property name="hibernate.cache.use_second_level_cache" value="true" />
+            <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory" />
+            <property name="hibernate.cache.use_query_cache" value="true"/>
+            <property name="hibernate.cache.ehcache.missing_cache_strategy" value="create"/>
+
             <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
 
             <property name="hibernate.hbm2ddl.auto" value="create"/>

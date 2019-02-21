@@ -1,5 +1,6 @@
 package com.hapex.electrostore.controller.helper;
 
+import com.hapex.electrostore.App;
 import com.hapex.electrostore.model.CategoryModel;
 import com.hapex.electrostore.model.LocationModel;
 import com.hapex.electrostore.service.CategoryService;
@@ -23,7 +24,7 @@ public class TreeBuilder {
      * @return root TreeItem
      */
     public static TreeItem<CategoryModel> buildCategoryRoot(CategoryService categoryService) {
-        TreeItem<CategoryModel> root = new TreeItem<>(new CategoryModel("Categories"));
+        TreeItem<CategoryModel> root = new TreeItem<>(new CategoryModel(App.getLocale("category.all")));
         buildCategoryTree(root, categoryService.getSimpleCategories(), null);
         root.setExpanded(true);
         return root;

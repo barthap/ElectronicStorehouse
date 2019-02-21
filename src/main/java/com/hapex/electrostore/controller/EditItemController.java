@@ -31,6 +31,15 @@ public class EditItemController extends ModalWindowController implements Initial
     private final CategoryService categoryService;
     private final LocationService locationService;
 
+    private enum SaveButtonBehaviour {
+        SAVE_AND_CLOSE,
+        SAVE,
+        CREATE_AND_CLOSE,
+        CREATE_AND_NEW
+    }
+
+    private SaveButtonBehaviour saveBehaviour;
+
     private ItemModel currentItem;
 
     private SimpleBooleanProperty isEditing = new SimpleBooleanProperty(false);
@@ -67,11 +76,35 @@ public class EditItemController extends ModalWindowController implements Initial
     }
 
     public void onSaveClick(ActionEvent event) {
-        this.close();
+        switch (saveBehaviour) {
+            case SAVE:
+                saveChanges();
+                break;
+            case SAVE_AND_CLOSE:
+                if(saveChanges())
+                    close();
+                break;
+            case CREATE_AND_CLOSE:
+                if(saveNew())
+                    close();
+                break;
+            case CREATE_AND_NEW:
+                if(saveNew())
+                    clear();
+                break;
+        }
     }
 
     public void onCloseClick(ActionEvent event) {
         this.close();
+    }
+
+    private boolean saveChanges() {
+        return false;
+    }
+
+    private boolean saveNew() {
+        return false;
     }
 
     public void setCurrentItem(ItemModel itemModel) {
@@ -105,11 +138,18 @@ public class EditItemController extends ModalWindowController implements Initial
 
             MenuItem saveAndClose = new MenuItem(saveCloseStr);
             MenuItem saveChanges = new MenuItem(saveChangesStr);
-            saveAndClose.setOnAction(e -> saveButton.setText(saveCloseStr));
-            saveChanges.setOnAction(e -> saveButton.setText(saveChangesStr));
+            saveAndClose.setOnAction(e -> {
+                saveButton.setText(saveCloseStr);
+                saveBehaviour = SaveButtonBehaviour.SAVE_AND_CLOSE;
+            });
+            saveChanges.setOnAction(e -> {
+                saveButton.setText(saveChangesStr);
+                saveBehaviour = SaveButtonBehaviour.SAVE;
+            });
 
             saveButton.setText(saveChangesStr);
             saveButton.getItems().addAll(saveAndClose, saveChanges);
+            saveBehaviour = SaveButtonBehaviour.SAVE;
         }
         else {
             String createCloseStr = App.getLocale("button.create_and_close");
@@ -117,11 +157,18 @@ public class EditItemController extends ModalWindowController implements Initial
 
             MenuItem createAndClose = new MenuItem(createCloseStr);
             MenuItem createAndNew = new MenuItem(createNewStr);
-            createAndClose.setOnAction(e -> saveButton.setText(createCloseStr));
-            createAndNew.setOnAction(e -> saveButton.setText(createNewStr));
+            createAndClose.setOnAction(e -> {
+                saveButton.setText(createCloseStr);
+                saveBehaviour = SaveButtonBehaviour.CREATE_AND_CLOSE;
+            });
+            createAndNew.setOnAction(e -> {
+                saveButton.setText(createNewStr);
+                saveBehaviour = SaveButtonBehaviour.CREATE_AND_NEW;
+            });
 
             saveButton.setText(createCloseStr);
             saveButton.getItems().addAll(createAndClose, createAndNew);
+            saveBehaviour = SaveButtonBehaviour.CREATE_AND_CLOSE;
         }
     }
 
@@ -131,6 +178,7 @@ public class EditItemController extends ModalWindowController implements Initial
         websiteField.setText("");
         quantityField.setText("");
         categorySelectTree.getSelectionModel().clearSelection();
+        locationPicker.getSelectionModel().selectFirst();
     }
 
     private TreeItem<CategoryModel> findCategoryById(TreeItem<CategoryModel> root, long id) {
